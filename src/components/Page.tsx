@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { TitleSummary } from '../types';
+import { TitleSummary, Focus, Title } from '../types';
 import TitleTeaser from './Teaser';
 import Panel from './Panel';
 
@@ -141,24 +141,18 @@ const TitleList = styled.ul`
 `;
 
 interface Props {
+    section?: 'movies' | 'tvshows';
+    id?: number;
+    focus: Focus;
     query?: string;
     movies?: TitleSummary[];
     tvshows?: TitleSummary[];
     title?: Title;
-    focus: {
-        movies: boolean;
-        tvshows: boolean;
-        title: boolean;
-    };
     getUrl(query: string, section?: 'movies' | 'tvshows', id?: number): string;
 }
 
 interface FocusProps {
-    focus: {
-        movies: boolean;
-        tvshows: boolean;
-        title: boolean;
-    };
+    focus: Focus;
     section: 'movies' | 'tvshows' | 'title';
 }
 

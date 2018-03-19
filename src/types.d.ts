@@ -11,3 +11,9 @@ export interface Title extends TitleSummary {
 }
 
 export type Results = { movies: TitleSummary[]; tvshows: TitleSummary[] };
+
+export interface Focus {
+    movies: boolean;
+    tvshows: boolean;
+    title: boolean;
+}

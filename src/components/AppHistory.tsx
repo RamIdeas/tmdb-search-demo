@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title, Results } from '../types';
+import { Title, Results, Focus } from '../types';
 import { ClickHijacker } from './ClickHijacker';
 import DataFetcher from './DataFetcher';
 
@@ -13,6 +13,7 @@ interface Props {
 interface State {
     section?: 'movies' | 'tvshows';
     id?: number;
+    focus: Focus;
     query: string;
     results: Results;
     title: Title;
@@ -52,9 +53,9 @@ class AppHistory extends React.Component<Props, State> {
 
     onClickLink(e: MouseEvent, anchor: HTMLAnchorElement) {
         const { pathname } = new URL(anchor.href);
-        const { section, id } = this.deriveStateFromPathname(pathname);
-        const title = id === this.state.id ? this.state.title : undefined;
-        const state = { section, id, title };
+        const pathState = this.deriveStateFromPathname(pathname);
+        const title = pathState.id === this.state.id ? this.state.title : undefined;
+        const state = { ...pathState, title };
         this.setState(state);
         this.history({ ...this.state, ...state });
     }
@@ -82,7 +83,12 @@ class AppHistory extends React.Component<Props, State> {
 
     deriveStateFromPathname(pathname: string) {
         const [, section, id] = pathname.match(ROUTE_REGEX) as [string, 'movies' | 'tvshows', string];
-        return { section, id: id && parseInt(id, 10) };
+        const focus = {
+            movies: section !== 'tvshows',
+            tvshows: section !== 'movies',
+            title: !!id,
+        };
+        return { section, id: id && parseInt(id, 10), focus };
     }
     getPageHref(query: string, section?: string, id?: number) {
         const search = query ? `query=${encodeURIComponent(query)}` : '';
