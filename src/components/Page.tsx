@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { TitleSummary, Focus, Title } from '../types';
 import TitleTeaser from './Teaser';
 import Panel from './Panel';
+import ThrottledInput from './ThrottledInput';
 
 const EPSILON = 0.00001;
 const PANEL_WIDTH = 25;
@@ -70,7 +71,7 @@ const Search = styled.div`
     justify-content: center;
     align-items: center;
 `;
-const SearchInput = styled.input`
+const SearchInput = styled(ThrottledInput)`
     width: 30rem;
     max-width: calc(100% - 2.5rem);
     font-size: 1.5rem;
