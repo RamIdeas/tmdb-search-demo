@@ -6,7 +6,7 @@ import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import api from './api';
 import { Title, TitleSummary } from '../types';
-import Page from '../components/Page';
+import AppHistory from '../components/AppHistory';
 
 // regex's use `+` to prevent undefined parameters
 const ROUTES = {
@@ -37,7 +37,8 @@ export const server = createServer(async (req, res) => {
         const [, q] = pathname.match(ROUTES.search);
         const { page } = query;
 
-        const results = getSearchResults(q, page && parseInt(page.toString(), 10));
+        const results = await getSearchResults(q, page && parseInt(page.toString(), 10));
+
         const json = JSON.stringify(results);
 
         res.statusCode = 200;
@@ -73,21 +74,15 @@ const getHtml = async (query: string, section: string, id: number | undefined) =
     const title = id && getSelectedTitle(section, id);
 
     const props = {
-        movies: await movies,
-        tvshows: await tvshows,
-        title: await title,
-        focus: {
-            movies: section !== 'tvshows',
-            tvshows: section !== 'movies',
-            title: !!id,
-        },
+        pathname: id ? `/${section}/${id}` : section ? `/${section}` : `/`,
         query,
-        getUrl: (query: string, section?: string, id?: number) => {
-            const parts = ['/', section, section && id && '/' + id, query && `?q=${query}`];
-            return parts.filter(Boolean).join('');
+        results: {
+            movies: await movies,
+            tvshows: await tvshows,
         },
+        title: await title,
     };
-    const component = <Page {...props} />;
+    const component = <AppHistory {...props} />;
     const sheet = new ServerStyleSheet();
     const content = renderToString(sheet.collectStyles(component));
     const styles = sheet.getStyleTags();

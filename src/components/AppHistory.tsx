@@ -21,7 +21,7 @@ interface State {
 
 const ROUTE_REGEX = /^\/(?:(movies|tvshows)(?:\/(\d+))?)?$/;
 
-class AppHistory extends React.Component<Props, State> {
+export default class AppHistory extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 
@@ -91,7 +91,7 @@ class AppHistory extends React.Component<Props, State> {
         return { section, id: id && parseInt(id, 10), focus };
     }
     getPageHref(query: string, section?: string, id?: number) {
-        const search = query ? `query=${encodeURIComponent(query)}` : '';
+        const search = query ? `?q=${encodeURIComponent(query)}` : '';
         if (section && id) return `/${section}/${id}${search}`;
         if (section) return `/${section}${search}`;
         return `/${search}`;
@@ -112,7 +112,13 @@ class AppHistory extends React.Component<Props, State> {
     render() {
         return (
             <ClickHijacker onClickLink={this.onClickLink}>
-                <DataFetcher onFetchResults={this.onFetchResults} onFetchTitle={this.onFetchTitle} {...this.state} />
+                <DataFetcher
+                    onFetchResults={this.onFetchResults}
+                    onFetchTitle={this.onFetchTitle}
+                    getPageHref={this.getPageHref}
+                    onChangeQuery={this.onChangeQuery}
+                    {...this.state}
+                />
             </ClickHijacker>
         );
     }

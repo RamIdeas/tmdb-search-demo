@@ -11,9 +11,10 @@ interface Props {
     results: Results;
     title: Title;
 
+    onChangeQuery(query: string);
     getPageHref(query: string, section?: string, id?: number);
-    onFetchResults(results: Results): void;
-    onFetchTitle(title: Title): void;
+    onFetchResults(results: Results);
+    onFetchTitle(title: Title);
 }
 
 interface State {
@@ -61,7 +62,7 @@ export default class AppDataFetcher extends React.Component<Props, State> {
     }
 
     render() {
-        const { focus, query, getPageHref } = this.props;
+        const { focus, query, getPageHref, onChangeQuery } = this.props;
         let { results, title } = this.state;
 
         if (results === undefined) results = this.props.results;
@@ -69,6 +70,6 @@ export default class AppDataFetcher extends React.Component<Props, State> {
 
         const { movies, tvshows } = results || ({} as Results);
 
-        return <Page {...{ focus, query, movies, tvshows, title, getUrl: getPageHref }} />;
+        return <Page {...{ focus, query, movies, tvshows, title, getUrl: getPageHref, onChangeQuery }} />;
     }
 }

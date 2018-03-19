@@ -149,6 +149,7 @@ interface Props {
     tvshows?: TitleSummary[];
     title?: Title;
     getUrl(query: string, section?: 'movies' | 'tvshows', id?: number): string;
+    onChangeQuery(query: string);
 }
 
 interface FocusProps {
@@ -156,11 +157,11 @@ interface FocusProps {
     section: 'movies' | 'tvshows' | 'title';
 }
 
-export default ({ query, movies, tvshows, title, focus, getUrl, ...props }: Props) => (
+export default ({ query, movies, tvshows, title, focus, getUrl, onChangeQuery, ...props }: Props) => (
     <Outer {...props}>
         <Main focus={focus}>
             <Search>
-                <SearchInput placeholder="Search for a movie or TV show..." />
+                <SearchInput onChange={onChangeQuery} placeholder="Search for a movie or TV show..." />
             </Search>
             <HeaderRow>
                 <Header href={getUrl(query, 'movies')} focus={focus} section="movies">
