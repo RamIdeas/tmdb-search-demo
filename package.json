@@ -17,8 +17,7 @@
         "node-fetch": "^2.1.1",
         "react": "^16.0.0",
         "react-dom": "^16.0.0",
-        "styled-components": "^2.2.1",
-        "tmdbv3": "^0.1.2"
+        "styled-components": "^2.2.1"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0-beta.40",
