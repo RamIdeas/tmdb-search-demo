@@ -16,9 +16,7 @@ export class ClickHijacker extends React.Component<Props> {
         const anchor = this.getAnchorElement(e.target as HTMLElement);
         const isPrimaryClick = e.buttons === 0;
         const isModiferKeyPressed = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
-        const rootPathname = location.pathname.split('/')[1];
-        const isInternal = anchor ? anchor.href.includes(`${location.host}/${rootPathname}`) : false;
-        if (isPrimaryClick && !isModiferKeyPressed && isInternal) {
+        if (isPrimaryClick && !isModiferKeyPressed) {
             e.preventDefault();
             this.onClickLink(e, anchor);
         }

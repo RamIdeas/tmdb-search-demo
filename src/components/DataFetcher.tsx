@@ -30,7 +30,7 @@ export default class AppDataFetcher extends React.Component<Props, State> {
 
     componentWillReceiveProps(nextProps: Props, nextState: State) {
         if (nextProps.query !== this.props.query) {
-            if (!nextProps.results) {
+            if (!nextProps.results && nextProps.query) {
                 const loading = !!this.state.results;
                 if (!loading) this.setState({ results: this.props.results });
 
@@ -48,7 +48,7 @@ export default class AppDataFetcher extends React.Component<Props, State> {
         }
 
         if (nextProps.section !== this.props.section || nextProps.id !== this.props.id) {
-            if (!nextProps.title) {
+            if (!nextProps.title && nextProps.id) {
                 const loading = !!this.state.title;
                 if (!loading) this.setState({ title: this.props.title });
 
