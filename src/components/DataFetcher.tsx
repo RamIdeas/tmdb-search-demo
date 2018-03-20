@@ -38,7 +38,10 @@ export default class AppDataFetcher extends React.Component<Props, State> {
 
                 fetch(`/api/search/${query}`)
                     .then(res => res.json())
-                    .then(this.props.onFetchResults);
+                    .then(results => {
+                        this.setState({ results: undefined });
+                        this.props.onFetchResults(results);
+                    });
             } else if (nextProps.results !== this.props.results) {
                 this.setState({ results: undefined });
             }
@@ -54,7 +57,10 @@ export default class AppDataFetcher extends React.Component<Props, State> {
 
                 fetch(`/api/${resource}/${id}`)
                     .then(res => res.json())
-                    .then(this.props.onFetchTitle);
+                    .then(title => {
+                        this.setState({ title: undefined });
+                        this.props.onFetchTitle(title);
+                    });
             } else if (nextProps.title !== this.props.title) {
                 this.setState({ title: undefined });
             }
