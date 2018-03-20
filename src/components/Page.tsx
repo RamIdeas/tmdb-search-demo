@@ -25,7 +25,7 @@ const tablet = (s, ...i) => css`
 const mainFocus = (focused: any, unfocused: any) =>
     function({ focus, section }: FocusProps) {
         if (section === 'movies') return focus.movies ? focused : unfocused;
-        if (section === 'tvshows') return focus.tvshows && (focus.title && !focus.movies) ? focused : unfocused;
+        if (section === 'tvshows') return focus.tvshows && (!focus.title || !focus.movies) ? focused : unfocused;
     };
 
 const Outer = styled.div`
@@ -162,7 +162,10 @@ export default ({ query, movies, tvshows, title, focus, getUrl, onChangeQuery, .
     <Outer {...props}>
         <Main focus={focus}>
             <Search>
-                <SearchInput onChange={onChangeQuery} placeholder="Search for a movie or TV show..." />
+                <SearchInput
+                    onChange={console.log(focus) || onChangeQuery}
+                    placeholder="Search for a movie or TV show..."
+                />
             </Search>
             <HeaderRow>
                 <Header href={getUrl(query, 'movies')} focus={focus} section="movies">

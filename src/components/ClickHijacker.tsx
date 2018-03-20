@@ -16,7 +16,7 @@ export class ClickHijacker extends React.Component<Props> {
         const anchor = this.getAnchorElement(e.target as HTMLElement);
         const isPrimaryClick = e.buttons === 0;
         const isModiferKeyPressed = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
-        if (isPrimaryClick && !isModiferKeyPressed) {
+        if (anchor && isPrimaryClick && !isModiferKeyPressed) {
             e.preventDefault();
             this.onClickLink(e, anchor);
         }
@@ -28,7 +28,7 @@ export class ClickHijacker extends React.Component<Props> {
         return this.getAnchorElement(el.parentElement);
     }
 
-    onClickLink(e: MouseEvent, anchor = this.getAnchorElement(e.target as HTMLElement)) {
+    onClickLink(e: MouseEvent, anchor: HTMLAnchorElement) {
         this.props.onClickLink(e, anchor);
     }
 
